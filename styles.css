@@ -310,3 +310,66 @@ html{font-size:100%}body{font-size:1rem;line-height:1.7}p,blockquote,button,a{ov
   .nav-links { gap: clamp(.65rem, 1.4vw, 1rem); }
   .nav-links > a { white-space: nowrap; }
 }
+
+/* Let content shrink within columns without introducing page overflow. */
+.services > *, .steps > *, .inspiration-grid > *, .contact > *,
+.site-footer > *, .formgrid > *, .gallery-pair > * { min-width: 0; }
+.services, .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.btn, .text-button { max-width: 100%; }
+.text-button { white-space: normal; }
+.result { overflow-wrap: anywhere; }
+dialog { max-width: calc(100% - 24px); max-height: calc(100dvh - 24px); }
+
+/* Switch navigation before the wordmark and links become crowded. */
+@media (min-width: 801px) and (max-width: 1200px) {
+  html { scroll-padding-top: 110px; }
+  .menu-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    background: transparent;
+    color: var(--green);
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 24px;
+    background: var(--cream);
+    box-shadow: 0 12px 16px #153c301a;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    max-height: calc(100dvh - 110px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links > a { font-size: 1rem; padding: 8px 0; white-space: normal; }
+}
+@media (max-width: 800px) {
+  .services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .menu-button { min-height: 44px; flex-shrink: 0; }
+  .nav-links > a { padding: 8px 0; }
+  .site-footer { padding-bottom: 110px; }
+}
+@media (max-width: 520px) {
+  .services, .steps, .gallery-pair { grid-template-columns: minmax(0, 1fr); }
+  .hero .actions > *, .final-estimate .btn { width: 100%; }
+  .formgrid { grid-template-columns: minmax(0, 1fr); }
+  .brand { min-width: 0; }
+  .brand img, .brand .uga-wordmark { flex-shrink: 0; }
+}
+@media (max-width: 380px) {
+  .logo-grid { grid-template-columns: minmax(0, 1fr); }
+  .brand .brand-descriptor { display: none; }
+}
+@supports (padding: env(safe-area-inset-bottom)) {
+  .quick-contact { bottom: calc(12px + env(safe-area-inset-bottom)); }
+}
