@@ -23,7 +23,14 @@ const modal=document.getElementById('estimate'),form=document.getElementById('fo
   document.getElementById('copymsg').textContent = '';
   document.getElementById('summary-title').focus();
 };
-document.getElementById('edit').onclick=()=>{form.hidden=false;summary.hidden=true};document.getElementById('copy').onclick=async()=>{try{await navigator.clipboard.writeText(document.getElementById('summarytext').textContent);document.getElementById('copymsg').textContent='Summary copied.'}catch{document.getElementById('copymsg').textContent='Select the summary text to copy it manually.'}};document.getElementById('year').textContent=new Date().getFullYear();
+document.getElementById('edit').onclick=()=>{form.hidden=false;summary.hidden=true};document.getElementById('copy').onclick=async()=>{try{await navigator.clipboard.writeText(document.getElementById('summarytext').textContent);document.getElementById('copymsg').textContent='Summary copied.'}catch{document.getElementById('copymsg').textContent='Select the summary text to copy it manually.'}};
+
+const requestedService = new URLSearchParams(window.location.search).get('estimate');
+if (services.some(([name]) => name === requestedService)) {
+  select.value = requestedService;
+  update();
+  modal.showModal();
+}
 
 const photoDialog=document.getElementById('photo');document.getElementById('closephoto').onclick=()=>photoDialog.close();photoDialog.addEventListener('click',e=>{if(e.target===photoDialog){const r=photoDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)photoDialog.close()}});
 const menuButton=document.getElementById('menuButton'),navLinks=document.getElementById('navLinks');menuButton.onclick=()=>{const open=menuButton.getAttribute('aria-expanded')==='true';menuButton.setAttribute('aria-expanded',String(!open));navLinks.classList.toggle('open',!open)};navLinks.querySelectorAll('a,button').forEach(x=>x.addEventListener('click',()=>{navLinks.classList.remove('open');menuButton.setAttribute('aria-expanded','false')}));

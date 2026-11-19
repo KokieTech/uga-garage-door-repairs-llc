@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { dirname, extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { crawlFiles, landingPages, renderHomepage } from './pages.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const types = {
@@ -9,7 +10,8 @@ const types = {
   '.js': 'text/javascript; charset=utf-8', '.webp': 'image/webp',
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
   '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.otf': 'font/otf',
-  '.mp4': 'video/mp4', '.webm': 'video/webm'
+  '.mp4': 'video/mp4', '.webm': 'video/webm',
+  '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8'
 };
 const server = createServer(async (request, response) => {
   if (!['GET', 'HEAD'].includes(request.method)) {
@@ -23,14 +25,27 @@ const server = createServer(async (request, response) => {
       response.writeHead(403).end('Forbidden');
       return;
     }
-    const filename = resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
-    if (!filename.startsWith(root + sep) || !types[extname(filename)]) {
+    const landing = landingPages.get(pathname.replace(/\/$/, ''));
+    const crawlFile = crawlFiles.get(pathname);
+    const homepage = pathname === '/' || pathname === '/index.html';
+    const filename = resolve(root, '.' + (homepage ? '/index.html' : pathname));
+    const type = landing ? types['.html'] : types[extname(filename)];
+    if (!filename.startsWith(root + sep) || !type) {
       response.writeHead(404).end('Not found');
       return;
     }
-    const content = await readFile(filename);
+    let content;
+    if (landing) {
+      content = Buffer.from(landing);
+    } else if (crawlFile) {
+      content = Buffer.from(crawlFile);
+    } else if (homepage) {
+      content = Buffer.from(renderHomepage(await readFile(filename, 'utf8')));
+    } else {
+      content = await readFile(filename);
+    }
     response.writeHead(200, {
-      'Content-Type': types[extname(filename)],
+      'Content-Type': type,
       'Content-Length': content.length,
       'Cache-Control': 'no-store'
     });

@@ -28,6 +28,6 @@ One-time setup:
 4. In [this repository's Actions secrets](https://github.com/KokieTech/uga-garage-door-repairs-llc/settings/secrets/actions), add two repository secrets: `NETLIFY_AUTH_TOKEN` for the token and `NETLIFY_SITE_ID` for the project ID. Keep the token out of source control.
 5. Run the workflow from GitHub Actions, or push a change to `main`. The deployment step logs the Netlify site and deployment URLs.
 
-Only `index.html`, `styles.css`, `script.js`, and `assets/` are published. The local server and repository files are excluded. No application build or package installation is needed before the syntax checks; the deployment step downloads Netlify CLI.
+The workflow runs `npm run build` to assemble the homepage, service and location pages, and their assets in `dist/`. The local server and repository files are excluded. Edit the page copy and photo references in `page-content.mjs`; `pages.mjs` contains the two layouts. The local server uses those same layouts, so you can preview any route with `npm start` without building first.
 
 If the Netlify project already has Git-based automatic publishing enabled, disable that automatic publishing when using this workflow to avoid duplicate deployments.
