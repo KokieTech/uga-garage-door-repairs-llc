@@ -18,15 +18,15 @@ If Node was just installed, reopen your terminal so `node` and `npm` are on PATH
 
 ## Deploy to Netlify
 
-The GitHub Actions workflow in `.github/workflows/netlify-deploy.yml` checks JavaScript syntax and deploys the static website to Netlify on every push to `master`. You can also run it manually from the repository's **Actions** tab by selecting **Deploy to Netlify**, then **Run workflow** on `master`.
+The GitHub Actions workflow in `.github/workflows/netlify-deploy.yml` checks JavaScript syntax and deploys the static website to Netlify on every push to `main`. You can also run it manually from the repository's **Actions** tab by selecting **Deploy to Netlify**, then **Run workflow** on `main`.
 
 One-time setup:
 
 1. Create or choose the project in Netlify that should host this website.
 2. Copy its Project ID (also called Site ID) from the project's configuration in Netlify.
 3. Create a personal access token in your Netlify user settings under **Applications**. Use an account with access to that project.
-4. In [this repository's Actions secrets](https://github.com/KokieTech/ugawebsite/settings/secrets/actions), add two repository secrets: `NETLIFY_AUTH_TOKEN` for the token and `NETLIFY_SITE_ID` for the project ID. Keep the token out of source control.
-5. Run the workflow from GitHub Actions, or push a change to `master`. The deployment step logs the Netlify site and deployment URLs.
+4. In [this repository's Actions secrets](https://github.com/KokieTech/uga-garage-door-repairs-llc/settings/secrets/actions), add two repository secrets: `NETLIFY_AUTH_TOKEN` for the token and `NETLIFY_SITE_ID` for the project ID. Keep the token out of source control.
+5. Run the workflow from GitHub Actions, or push a change to `main`. The deployment step logs the Netlify site and deployment URLs.
 
 Only `index.html`, `styles.css`, `script.js`, and `assets/` are published. The local server and repository files are excluded. No application build or package installation is needed before the syntax checks; the deployment step downloads Netlify CLI.
 
