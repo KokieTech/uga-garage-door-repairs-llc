@@ -37,6 +37,8 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
+          NETLIFY_AUTH_TOKEN="$(printf '%s' "$NETLIFY_AUTH_TOKEN" | tr -d '[:space:]')"
+          NETLIFY_SITE_ID="$(printf '%s' "$NETLIFY_SITE_ID" | tr -d '[:space:]')"
           if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
             echo "::error::Add NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID in repository Actions secrets. See README.md."
             exit 1
