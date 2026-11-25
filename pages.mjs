@@ -22,7 +22,7 @@ const business = {
   telephone: '+1-240-437-7571',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '11713 Woodcreek Dr S',
+    streetAddress: '11713 Woodcreek Dr S, Unit E',
     addressLocality: 'Huntley',
     addressRegion: 'IL',
     postalCode: '60142',
